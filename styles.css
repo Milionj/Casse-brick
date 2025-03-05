@@ -1,6 +1,25 @@
+/* Jeu bien centré grâce au CSS.
+Ajout d'une bordure blanche pour mieux le distinguer. */ */
+
 *{
     margin: 0;
     padding: 0;
     text-decoration: none;
     box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* prend toute la hauteur de l'écran */
+    background-image: url(/img/boy-5699320_1920.jpg);
+    margin: 0; /* meme si deja parametré dans le code en général *, */
+    overflow: hidden; /* évite les barre de défilement */
+}
+
+canvas {
+    border: 35px solid rgb(120, 46, 46); /* petite bordur autoir du jeu */
+    border-radius: 40px;
+
 }
