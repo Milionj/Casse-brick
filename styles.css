@@ -1,25 +1,162 @@
-/* Jeu bien centré grâce au CSS.
-Ajout d'une bordure blanche pour mieux le distinguer. */ */
-
-*{
+/* ✅ Réinitialisation et mise en page de base */
+* {
     margin: 0;
     padding: 0;
     text-decoration: none;
     box-sizing: border-box;
 }
 
-body{
+/* ✅ Fond avec image et centrage du contenu */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Prend toute la hauteur de l'écran */
+    background-image: url(/img/boy-5699320_1920.jpg);
+    margin: 0;
+    overflow: hidden;
+}
+
+/* ✅ Barre de navigation */
+.navbar {
+    position: fixed; /* Fixe la barre en haut */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #818050;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+}
+
+.nav-left .logo {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.nav-center {
+    display: flex;
+    gap: 30px; /* Espace entre les liens */
+}
+
+.nav-center a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+/* Effet au survol */
+.nav-center a:hover,
+.nav-right a:hover {
+    text-decoration: underline;
+    color: #f8e71c;
+}
+
+#brickActu {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 15px;
+    border-radius: 10px;
+}
+#brickActu span {
+    font-weight: bold;
+}
+
+
+/* Ajustement pour que le jeu ne soit pas caché par la navbar */
+#game-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* prend toute la hauteur de l'écran */
-    background-image: url(/img/boy-5699320_1920.jpg);
-    margin: 0; /* meme si deja parametré dans le code en général *, */
-    overflow: hidden; /* évite les barre de défilement */
+    width: 90vw;
+    max-width: 900px;
+    height: 75vh;
+    max-height: 700px;
+    border: 5px solid rgba(129, 128, 80, 0.8);
+    background-color: #5C2E1F;
+    border-radius: 20px;
+    margin-top: 70px; /* 🔹 Corrige le chevauchement avec la navbar */
 }
 
-canvas {
-    border: 35px solid rgb(120, 46, 46); /* petite bordur autoir du jeu */
-    border-radius: 40px;
+/* ✅ Footer bien aligné et lisible */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 15px 30px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
 
+/* ✅ Partie gauche : Réseaux sociaux */
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-left h4 {
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+.footer-left a {
+    color: #6ba5ff;
+    font-size: 16px;
+    margin-left: 12px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-left a:hover {
+    text-decoration: underline;
+}
+
+/* ✅ Partie droite : Mentions légales et à propos */
+.footer-right {
+    display: flex;
+}
+
+.footer-right a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    margin-left: 25px;
+}
+
+.footer-right a:hover {
+    text-decoration: underline;
 }
