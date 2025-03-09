@@ -8,7 +8,10 @@
 // La balle se lance au clic uniquement si elle n’est pas déjà en mouvement.
 // Le niveau actuel est affiché en haut à droite
 // Les vies restantes sont représentées sous forme de cœurs
+// Système de comptage des vies et diamants
 // Un compteur de diamants s'incrémente à chaque passage de niveau.
+// Gestion de l'augmentation de la vitesse de la balle
+// btn recommencer, btn pause html, css également
 
 //problemes rencontrés:
 
@@ -39,11 +42,14 @@ let livesText; // Texte affichant les vies restantes
 let ballLaunched = false; // Vérifie si la balle a été lancée ou non
 let diamondCount = 0;  // Nombre de diamants
 let diamondText;   // Texte affichant les diamants
+let isPaused = false; //savoir si le jeu est en pause
 
 // Récupération des éléments HTML (level, vies, diamant)
 const levelDisplay = document.getElementById("level-display");
 const livesDisplay = document.getElementById("lives-display");
 const diamondsDisplay = document.getElementById("diamonds-display");
+const pauseButton = document.getElementById("pause-btn");
+const restartButton = document.getElementById("restart-btn");
 
 
 const config = {
@@ -261,4 +267,36 @@ function updateLife() {
         diamondsDisplay.textContent = "💎: " + diamondCount; // ✅ Met à jour le HUD
         diamondText.setText("💎: " + diamondCount); // ✅ Met à jour le texte dans la scène Phaser
     }
+
+    // 🎯 ✅ Fonction Pause
+pauseButton.addEventListener("click", () => {
+    if (!isPaused) {
+        game.scene.scenes[0].scene.pause(); // Met en pause la scène Phaser
+        pauseButton.textContent = "▶ Reprendre"; // Change le texte du bouton
+    } else {
+        game.scene.scenes[0].scene.resume(); // Reprend la scène Phaser
+        pauseButton.textContent = "⏸ Pause"; 
+    }
+    isPaused = !isPaused;
+});
+
+// 🎯 ✅ Fonction Recommencer (Correction)
+restartButton.addEventListener("click", () => {
+    game.scene.scenes[0].scene.restart(); // Redémarre complètement la scène Phaser
+    
+    // ✅ Réinitialisation des variables globales
+    level = 1;
+    lives = 3;
+    diamondCount = 0;
+    ballLaunched = false; // ✅ Permet de relancer la balle après restart
+
+    // ✅ Met à jour l'affichage
+    updateLife();
+    updateDiamonds(0);
+
+    // ✅ Remet les boutons à l'état initial
+    pauseButton.textContent = "⏸ Pause"; 
+    isPaused = false;
+});
+
     

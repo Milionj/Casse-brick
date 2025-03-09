@@ -69,7 +69,7 @@ body {
 .nav-center a:hover,
 .nav-right a:hover {
     text-decoration: underline;
-    color: #f8e71c;
+    color: #818050;
 }
 
 #brickActu {
@@ -88,6 +88,32 @@ body {
 }
 #brickActu span {
     font-weight: bold;
+}
+
+/* Styles des boutons Pause et Recommencer */
+#controls {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+}
+
+#controls button {
+    background-color: #ffff;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#controls button:hover {
+    background-color: #ffcc00;
 }
 
 
