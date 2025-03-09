@@ -91,6 +91,7 @@ body {
 }
 
 
+
 /* Ajustement pour que le jeu ne soit pas caché par la navbar */
 #game-container {
     display: flex;

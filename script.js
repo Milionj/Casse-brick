@@ -4,7 +4,11 @@
 // La raquette est contrôlable avec les touches de gauche et droite.
 // Ajout des niveaux et gestion de la difficulté.
 // La balle peut être relancée après une perte de vie.
-// Ajout d'un bouton permettant de relancer la balle après une perte.
+// Un mur invisible à droite empêche la balle et la raquette d'aller trop loin.
+// La balle se lance au clic uniquement si elle n’est pas déjà en mouvement.
+// Le niveau actuel est affiché en haut à droite
+// Les vies restantes sont représentées sous forme de cœurs
+// Un compteur de diamants s'incrémente à chaque passage de niveau.
 
 //problemes rencontrés:
 
@@ -16,7 +20,14 @@
 // Explication : La méthode onWorldBounds ne fonctionne que si checkWorldBounds et onWorldBounds sont activés sur la balle.
 // solucce : ball.setCollideWorldBounds(true, undefined, undefined, false); Le false à la fin désactive le rebond uniquement en bas
 // 2. La raquette ne peut pas être déplacée sur les bords du canvas.
+// Un mur invisible à droite empêche la balle et la raquette d'aller trop loin.
 
+// Ce qui a été abandonné :
+
+// Timer pour détruire les briques (trop contraignant).
+//  Animations pour l'affichage des diamants (priorité donnée au gameplay fluide).
+
+// Variables globales du jeu:
 let cursors; // Variable pour stocker les touches du clavier
 let bricks; // Groupe de briques
 let ball; // La balle du jeu
@@ -76,6 +87,7 @@ function preload() {
 
 // Création des objets du jeu
 function create() {
+
     // Création de la raquette
     paddle = this.physics.add.sprite(config.width / 2, 650, "paddle");
     paddle.setImmovable(true); // La raquette ne bouge pas sous l'effet de la balle
@@ -84,7 +96,13 @@ function create() {
 
 
     // Création de la balle
-    ball = this.physics.add.sprite(config.width / 2, 500, "ball");
+    ball = this.physics.add.sprite(config.width / 2, 500, "ball")
+    let rightWall = this.add.rectangle(780, 350, 10, 700, 0xffffff, 0); // Mur invisible (rectangle fin)
+    this.physics.add.existing(rightWall, true); // ✅ Ajoute une collision statique
+    this.physics.add.collider(ball, rightWall); // ✅ La balle rebondira dessus
+    
+
+    this.physics.add.collider(ball, rightWall); // ✅ La balle rebondit dessus
     ball.setBounce(1); // La balle rebondit parfaitement
     ball.setScale(0.6); // Réduction de la taille de la balle
     ball.setVelocity(0, 0); // La balle ne bouge pas au départ
@@ -92,7 +110,7 @@ function create() {
     // 🚨 Désactivation de la collision avec le bas 🚨
     ball.setCollideWorldBounds(true); // Active la collision avec les bords
     ball.body.onWorldBounds = true; // Détecte quand la balle sort du monde
-
+    this.physics.add.collider(ball, rightWall);
     // Détecter la sortie de la balle pour déclencher la perte de vie
     // Ajout d'un événement pour détecter quand la balle sort par le bas
     this.physics.world.on('worldbounds', (body, up, down) => {
@@ -167,14 +185,18 @@ function resetBall(scene) {
 
 // Mise à jour du jeu à chaque frame
 function update() {
+
     // Déplacement de la raquette avec des limites
-    if (cursors.left.isDown) {
+    let rightLimit = 750 //  Ajuste la limite droite
+
+    if (cursors.left.isDown && paddle.x > paddle.displayWidth / 2) {
         paddle.setVelocityX(-400);
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown && paddle.x < rightLimit) { // ✅ Empêche d'aller après 870px
         paddle.setVelocityX(400);
     } else {
         paddle.setVelocityX(0);
     }
+
 
     //  Vérifie si toutes les briques ont été détruites
     if (bricks.countActive() === 0) {
@@ -188,8 +210,18 @@ function update() {
 
         resetBall(this); // Replace la balle sur la raquette
         
-        let speedMultiplier = 1.2; // ✅ Augmente la vitesse de 20% à chaque niveau
-        ball.setVelocity(ball.body.velocity.x * speedMultiplier, ball.body.velocity.y * speedMultiplier);
+// Augmente légèrement la vitesse de la balle à chaque niveau
+let speedMultiplier = 1.1; // ✅ Augmente de 10% par niveau
+let newVelocityX = ball.body.velocity.x * speedMultiplier;
+let newVelocityY = ball.body.velocity.y * speedMultiplier;
+
+// ✅ S'assurer que la vitesse ne dépasse pas une certaine limite
+let maxSpeed = 600; 
+ball.setVelocity(
+    Phaser.Math.Clamp(newVelocityX, -maxSpeed, maxSpeed),
+    Phaser.Math.Clamp(newVelocityY, -maxSpeed, maxSpeed)
+);
+
     }
     
 }
