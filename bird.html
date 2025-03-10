@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Adapté</title>
+    <link rel="stylesheet" href="bird.css">
+</head>
+<body>
+
+    <!-- ✅ NAVIGATION (identique au casse-briques) -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="logo">WEBS GAMING CENTER</span>
+        </div>
+        <div class="nav-center">
+            <a href="index.html">Brick Breaker</a>
+            <a href="bird.html" class="active">Flappy Bird</a>
+        </div>
+        <div class="nav-right">
+            <a href="inscription.html">Se connecter / S'inscrire</a>
+        </div>
+    </nav>
+
+    <!-- ✅ Conteneur principal centré -->
+    <div id="game-wrapper">
+        <!-- ✅ HUD -->
+        <div id="hud">
+            <div class="hud-item score-box"><span id="scoreDisplay">SCORE: 0</span></div>
+            <div class="hud-item title">Flappy Bird</div>
+            <div class="hud-item length-box"><span id="lengthDisplay">LENGTH: 0m ❤️❤️❤️</span></div>
+        </div>
+
+        <!-- ✅ Zone de jeu centrée -->
+        <div id="gameContainer">
+            <div id="bird"></div>
+        </div>
+
+        <!-- ✅ Écran de démarrage -->
+        <div id="start-screen">Appuie sur ESPACE pour commencer</div>
+
+        <!-- ✅ Boutons de contrôle -->
+        <div id="controls">
+            <button id="pause-btn">⏸ Pause</button>
+            <button id="restart-btn">🔄 Recommencer</button>
+        </div>
+    </div>
+
+    <!-- ✅ FOOTER (identique au casse-briques) -->
+    <footer class="footer">
+        <div class="footer-left">
+            <h4>Mes réseaux</h4>
+            <a href="#">LinkedIn</a>
+            <a href="#">Twitter</a>
+        </div>
+        <div class="footer-right">
+            <a href="#">Les mentions légales</a>
+            <a href="#">À propos</a>
+        </div>
+    </footer>
+
+    <script src="bird.js"></script>
+</body>
+</html>

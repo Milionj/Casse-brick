@@ -44,7 +44,7 @@ let diamondCount = 0;  // Nombre de diamants
 let diamondText;   // Texte affichant les diamants
 let isPaused = false; //savoir si le jeu est en pause
 
-// Récupération des éléments HTML (level, vies, diamant)
+// Récupération des éléments HTML (level, vies, diamant, btn pause et restart)
 const levelDisplay = document.getElementById("level-display");
 const livesDisplay = document.getElementById("lives-display");
 const diamondsDisplay = document.getElementById("diamonds-display");
@@ -104,16 +104,16 @@ function create() {
     // Création de la balle
     ball = this.physics.add.sprite(config.width / 2, 500, "ball")
     let rightWall = this.add.rectangle(780, 350, 10, 700, 0xffffff, 0); // Mur invisible (rectangle fin)
-    this.physics.add.existing(rightWall, true); // ✅ Ajoute une collision statique
-    this.physics.add.collider(ball, rightWall); // ✅ La balle rebondira dessus
+    this.physics.add.existing(rightWall, true); //  Ajoute une collision statique
+    this.physics.add.collider(ball, rightWall); //  La balle rebondira dessus
     
 
-    this.physics.add.collider(ball, rightWall); // ✅ La balle rebondit dessus
+    this.physics.add.collider(ball, rightWall); //  La balle rebondit dessus
     ball.setBounce(1); // La balle rebondit parfaitement
     ball.setScale(0.6); // Réduction de la taille de la balle
     ball.setVelocity(0, 0); // La balle ne bouge pas au départ
 
-    // 🚨 Désactivation de la collision avec le bas 🚨
+    //  Désactivation de la collision avec le bas 
     ball.setCollideWorldBounds(true); // Active la collision avec les bords
     ball.body.onWorldBounds = true; // Détecte quand la balle sort du monde
     this.physics.add.collider(ball, rightWall);
@@ -197,7 +197,7 @@ function update() {
 
     if (cursors.left.isDown && paddle.x > paddle.displayWidth / 2) {
         paddle.setVelocityX(-400);
-    } else if (cursors.right.isDown && paddle.x < rightLimit) { // ✅ Empêche d'aller après 870px
+    } else if (cursors.right.isDown && paddle.x < rightLimit) { //  Empêche d'aller après 870px
         paddle.setVelocityX(400);
     } else {
         paddle.setVelocityX(0);
@@ -217,11 +217,11 @@ function update() {
         resetBall(this); // Replace la balle sur la raquette
         
 // Augmente légèrement la vitesse de la balle à chaque niveau
-let speedMultiplier = 1.1; // ✅ Augmente de 10% par niveau
+let speedMultiplier = 1.1; //  Augmente de 10% par niveau
 let newVelocityX = ball.body.velocity.x * speedMultiplier;
 let newVelocityY = ball.body.velocity.y * speedMultiplier;
 
-// ✅ S'assurer que la vitesse ne dépasse pas une certaine limite
+// S'assurer que la vitesse ne dépasse pas une certaine limite
 let maxSpeed = 600; 
 ball.setVelocity(
     Phaser.Math.Clamp(newVelocityX, -maxSpeed, maxSpeed),
@@ -253,22 +253,22 @@ function perdreVie(scene) {
 
 // Mise à jour du texte des vies et niveaux
 function updateLife() {
-    // ✅ Met à jour l'affichage du niveau
+    //  Met à jour l'affichage du niveau
     levelText.setText("LEVEL : " + level);
     
-    // ✅ Met à jour l'affichage des vies
+    //  Met à jour l'affichage des vies
     let hearts = "❤️".repeat(lives); // Génère un texte avec le bon nombre de cœurs
     livesText.setText(hearts);
 }
 
 //  Mise à jour du texte des diamants
     function updateDiamonds(amount) {
-        diamondCount += amount; // ✅ Ajoute les diamants à la variable globale
-        diamondsDisplay.textContent = "💎: " + diamondCount; // ✅ Met à jour le HUD
-        diamondText.setText("💎: " + diamondCount); // ✅ Met à jour le texte dans la scène Phaser
+        diamondCount += amount; //  Ajoute les diamants à la variable globale
+        diamondsDisplay.textContent = "💎: " + diamondCount; //  Met à jour le HUD
+        diamondText.setText("💎: " + diamondCount); //  Met à jour le texte dans la scène Phaser
     }
 
-    // 🎯 ✅ Fonction Pause
+    //  Fonction Pause
 pauseButton.addEventListener("click", () => {
     if (!isPaused) {
         game.scene.scenes[0].scene.pause(); // Met en pause la scène Phaser
@@ -280,21 +280,21 @@ pauseButton.addEventListener("click", () => {
     isPaused = !isPaused;
 });
 
-// 🎯 ✅ Fonction Recommencer (Correction)
+//  Fonction Recommencer (Correction)
 restartButton.addEventListener("click", () => {
     game.scene.scenes[0].scene.restart(); // Redémarre complètement la scène Phaser
     
-    // ✅ Réinitialisation des variables globales
+    //  Réinitialisation des variables globales
     level = 1;
     lives = 3;
     diamondCount = 0;
-    ballLaunched = false; // ✅ Permet de relancer la balle après restart
+    ballLaunched = false; // Permet de relancer la balle après restart
 
-    // ✅ Met à jour l'affichage
+    // Met à jour l'affichage
     updateLife();
     updateDiamonds(0);
 
-    // ✅ Remet les boutons à l'état initial
+    //  Remet les boutons à l'état initial
     pauseButton.textContent = "⏸ Pause"; 
     isPaused = false;
 });
